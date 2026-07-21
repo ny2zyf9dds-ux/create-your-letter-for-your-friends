@@ -27,14 +27,21 @@ document.addEventListener("DOMContentLoaded", () => {
     let mediaRecorder = null;
     let recordingStream = null;
     let recordingChunks = [];
+    let recordedVoiceMimeType = "";
     let recordingSeconds = 0;
     let recordingInterval = null;
+
+
+    /* ==================================================
+       YARDIMCI FONKSİYONLAR
+    ================================================== */
 
     function getLetterIdFromUrl() {
         return new URLSearchParams(
             window.location.search
         ).get("id");
     }
+
 
     function buildLetterUrl(letterId) {
         const url =
@@ -44,6 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         return url.href;
     }
+
 
     function togglePanel(button, panel) {
         if (!button || !panel) {
@@ -60,12 +68,14 @@ document.addEventListener("DOMContentLoaded", () => {
         );
     }
 
+
     function safeFileName(fileName) {
         return fileName
             .toLowerCase()
             .replace(/[^a-z0-9.]+/g, "-")
             .replace(/^-+|-+$/g, "");
     }
+
 
     function formatTimer(totalSeconds) {
         const minutes =
@@ -79,9 +89,10 @@ document.addEventListener("DOMContentLoaded", () => {
         return `${minutes}:${seconds}`;
     }
 
+
     async function getMediaDuration(file) {
         return new Promise((resolve, reject) => {
-            const element =
+            const mediaElement =
                 document.createElement(
                     file.type.startsWith("video/")
                         ? "video"
@@ -91,17 +102,19 @@ document.addEventListener("DOMContentLoaded", () => {
             const objectUrl =
                 URL.createObjectURL(file);
 
-            element.preload = "metadata";
+            mediaElement.preload = "metadata";
 
-            element.onloadedmetadata = () => {
-                const duration = element.duration;
+            mediaElement.onloadedmetadata = () => {
+                const duration =
+                    mediaElement.duration;
 
                 URL.revokeObjectURL(objectUrl);
                 resolve(duration);
             };
 
-            element.onerror = () => {
+            mediaElement.onerror = () => {
                 URL.revokeObjectURL(objectUrl);
+
                 reject(
                     new Error(
                         "The media duration could not be read."
@@ -109,11 +122,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
             };
 
-            element.src = objectUrl;
+            mediaElement.src = objectUrl;
         });
     }
 
-    async function uploadFile(file, folder, customName) {
+
+    async function uploadFile(
+        file,
+        folder,
+        customName
+    ) {
         const extension =
             file.name?.split(".").pop() ||
             file.type.split("/").pop() ||
@@ -149,7 +167,10 @@ document.addEventListener("DOMContentLoaded", () => {
         return data.publicUrl;
     }
 
-    /* ANA SAYFA */
+
+    /* ==================================================
+       ANA SAYFA
+    ================================================== */
 
     const envelope =
         document.getElementById("envelope");
@@ -157,15 +178,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const createButton =
         document.getElementById("createButton");
 
+
     envelope?.addEventListener("click", () => {
         envelope.classList.toggle("open");
     });
+
 
     createButton?.addEventListener("click", () => {
         window.location.href = "create.html";
     });
 
-    /* FORM VE ÖN İZLEME */
+
+    /* ==================================================
+       FORM VE CANLI ÖN İZLEME
+    ================================================== */
 
     const letterForm =
         document.getElementById("letterForm");
@@ -191,8 +217,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const characterCount =
         document.getElementById("characterCount");
 
+
     function updateLetterPreview() {
-        if (!recipientName || !senderName || !letterMessage) {
+        if (
+            !recipientName ||
+            !senderName ||
+            !letterMessage
+        ) {
             return;
         }
 
@@ -231,6 +262,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+
     recipientName?.addEventListener(
         "input",
         updateLetterPreview
@@ -248,7 +280,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     updateLetterPreview();
 
-    /* PANEL BUTONLARI */
+
+    /* ==================================================
+       MEDYA PANELLERİ
+    ================================================== */
 
     const photoButton =
         document.getElementById("photoButton");
@@ -274,6 +309,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const spotifyPanel =
         document.getElementById("spotifyPanel");
 
+
     photoButton?.addEventListener("click", () => {
         togglePanel(photoButton, photoPanel);
     });
@@ -290,19 +326,25 @@ document.addEventListener("DOMContentLoaded", () => {
         togglePanel(songButton, spotifyPanel);
     });
 
-    /* FOTOĞRAFLAR */
+
+    /* ==================================================
+       FOTOĞRAFLAR
+    ================================================== */
 
     const photoInput =
         document.getElementById("photoInput");
 
     const selectedPhotoGrid =
-        document.getElementById("selectedPhotoGrid");
+        document.getElementById(
+            "selectedPhotoGrid"
+        );
 
     const photoCount =
         document.getElementById("photoCount");
 
     const photoError =
         document.getElementById("photoError");
+
 
     function renderSelectedPhotos() {
         if (!selectedPhotoGrid) {
@@ -321,14 +363,15 @@ document.addEventListener("DOMContentLoaded", () => {
             const image =
                 document.createElement("img");
 
-            image.src =
+            const objectUrl =
                 URL.createObjectURL(file);
 
+            image.src = objectUrl;
             image.alt =
                 `Selected photo ${index + 1}`;
 
             image.onload = () => {
-                URL.revokeObjectURL(image.src);
+                URL.revokeObjectURL(objectUrl);
             };
 
             const removeButton =
@@ -357,6 +400,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+
     photoInput?.addEventListener(
         "change",
         () => {
@@ -365,10 +409,15 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const incomingFiles =
-                Array.from(photoInput.files || []);
+                Array.from(
+                    photoInput.files || []
+                );
 
             for (const file of incomingFiles) {
-                if (selectedPhotos.length >= MAX_PHOTOS) {
+                if (
+                    selectedPhotos.length >=
+                    MAX_PHOTOS
+                ) {
                     if (photoError) {
                         photoError.textContent =
                             "You can add a maximum of 5 photos.";
@@ -377,11 +426,25 @@ document.addEventListener("DOMContentLoaded", () => {
                     break;
                 }
 
-                if (!file.type.startsWith("image/")) {
+                if (
+                    ![
+                        "image/jpeg",
+                        "image/png",
+                        "image/webp"
+                    ].includes(file.type)
+                ) {
+                    if (photoError) {
+                        photoError.textContent =
+                            "Please choose JPG, PNG or WEBP photos.";
+                    }
+
                     continue;
                 }
 
-                if (file.size > MAX_PHOTO_SIZE) {
+                if (
+                    file.size >
+                    MAX_PHOTO_SIZE
+                ) {
                     if (photoError) {
                         photoError.textContent =
                             `${file.name} is larger than 8 MB.`;
@@ -398,7 +461,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     );
 
-    /* VİDEO */
+
+    /* ==================================================
+       VİDEO
+    ================================================== */
 
     const videoInput =
         document.getElementById("videoInput");
@@ -419,12 +485,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const videoError =
         document.getElementById("videoError");
 
+
     function clearVideo() {
         selectedVideo = null;
 
         if (videoPreview) {
             if (videoPreview.src) {
-                URL.revokeObjectURL(videoPreview.src);
+                URL.revokeObjectURL(
+                    videoPreview.src
+                );
             }
 
             videoPreview.removeAttribute("src");
@@ -440,6 +509,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+
     videoInput?.addEventListener(
         "change",
         async () => {
@@ -452,6 +522,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (videoError) {
                 videoError.textContent = "";
+            }
+
+            if (
+                ![
+                    "video/mp4",
+                    "video/webm",
+                    "video/quicktime"
+                ].includes(file.type)
+            ) {
+                if (videoError) {
+                    videoError.textContent =
+                        "Please choose an MP4, WEBM or MOV video.";
+                }
+
+                clearVideo();
+                return;
             }
 
             if (file.size > MAX_VIDEO_SIZE) {
@@ -470,7 +556,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (
                     !Number.isFinite(duration) ||
-                    duration > MAX_MEDIA_DURATION + 0.5
+                    duration >
+                        MAX_MEDIA_DURATION + 0.5
                 ) {
                     if (videoError) {
                         videoError.textContent =
@@ -489,7 +576,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 if (videoPreviewContainer) {
-                    videoPreviewContainer.hidden = false;
+                    videoPreviewContainer.hidden =
+                        false;
                 }
 
             } catch (error) {
@@ -503,12 +591,16 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     );
 
+
     removeVideoButton?.addEventListener(
         "click",
         clearVideo
     );
 
-    /* SES KAYDI */
+
+    /* ==================================================
+       SES KAYDI — TELEFON UYUMLU
+    ================================================== */
 
     const startRecordingButton =
         document.getElementById(
@@ -521,7 +613,9 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
     const recordingTimer =
-        document.getElementById("recordingTimer");
+        document.getElementById(
+            "recordingTimer"
+        );
 
     const voicePreviewContainer =
         document.getElementById(
@@ -529,7 +623,9 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
     const voicePreview =
-        document.getElementById("voicePreview");
+        document.getElementById(
+            "voicePreview"
+        );
 
     const removeVoiceButton =
         document.getElementById(
@@ -537,20 +633,50 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
     const voiceError =
-        document.getElementById("voiceError");
+        document.getElementById(
+            "voiceError"
+        );
+
 
     function stopRecordingTimer() {
-        window.clearInterval(recordingInterval);
-        recordingInterval = null;
+        if (recordingInterval) {
+            window.clearInterval(
+                recordingInterval
+            );
+
+            recordingInterval = null;
+        }
     }
+
 
     function closeRecordingStream() {
         recordingStream
             ?.getTracks()
-            .forEach(track => track.stop());
+            .forEach(track => {
+                track.stop();
+            });
 
         recordingStream = null;
     }
+
+
+    function resetRecordingButtons() {
+        if (startRecordingButton) {
+            startRecordingButton.disabled =
+                false;
+
+            startRecordingButton.textContent =
+                voiceBlob
+                    ? "Record again"
+                    : "Start recording";
+        }
+
+        if (stopRecordingButton) {
+            stopRecordingButton.disabled =
+                true;
+        }
+    }
+
 
     function stopVoiceRecording() {
         if (
@@ -561,6 +687,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+
     startRecordingButton?.addEventListener(
         "click",
         async () => {
@@ -570,6 +697,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (
                 !navigator.mediaDevices ||
+                !navigator.mediaDevices.getUserMedia ||
                 !window.MediaRecorder
             ) {
                 if (voiceError) {
@@ -589,13 +717,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 recordingChunks = [];
                 recordingSeconds = 0;
+                voiceBlob = null;
+
+                const supportedVoiceTypes = [
+                    "audio/webm;codecs=opus",
+                    "audio/webm",
+                    "audio/mp4;codecs=mp4a.40.2",
+                    "audio/mp4"
+                ];
 
                 const preferredMimeType =
-                    MediaRecorder.isTypeSupported(
-                        "audio/webm"
-                    )
-                        ? "audio/webm"
-                        : "";
+                    supportedVoiceTypes.find(
+                        type =>
+                            MediaRecorder
+                                .isTypeSupported(type)
+                    ) || "";
 
                 mediaRecorder =
                     preferredMimeType
@@ -610,10 +746,18 @@ document.addEventListener("DOMContentLoaded", () => {
                             recordingStream
                         );
 
+                recordedVoiceMimeType =
+                    mediaRecorder.mimeType ||
+                    preferredMimeType ||
+                    "audio/mp4";
+
                 mediaRecorder.addEventListener(
                     "dataavailable",
                     event => {
-                        if (event.data.size > 0) {
+                        if (
+                            event.data &&
+                            event.data.size > 0
+                        ) {
                             recordingChunks.push(
                                 event.data
                             );
@@ -627,53 +771,93 @@ document.addEventListener("DOMContentLoaded", () => {
                         stopRecordingTimer();
                         closeRecordingStream();
 
+                        const finalMimeType =
+                            mediaRecorder.mimeType ||
+                            recordedVoiceMimeType ||
+                            "audio/mp4";
+
                         voiceBlob =
                             new Blob(
                                 recordingChunks,
                                 {
                                     type:
-                                        mediaRecorder
-                                            .mimeType ||
-                                        "audio/webm"
+                                        finalMimeType
                                 }
                             );
 
+                        if (
+                            !voiceBlob ||
+                            voiceBlob.size === 0
+                        ) {
+                            voiceBlob = null;
+
+                            if (voiceError) {
+                                voiceError.textContent =
+                                    "The recording was empty. Please try again.";
+                            }
+
+                            resetRecordingButtons();
+                            return;
+                        }
+
                         if (voicePreview) {
-                            if (voicePreview.src) {
+                            if (
+                                voicePreview.src
+                            ) {
                                 URL.revokeObjectURL(
                                     voicePreview.src
                                 );
                             }
 
-                            voicePreview.src =
+                            const previewUrl =
                                 URL.createObjectURL(
                                     voiceBlob
                                 );
+
+                            voicePreview.src =
+                                previewUrl;
+
+                            voicePreview.load();
                         }
 
-                        if (voicePreviewContainer) {
+                        if (
+                            voicePreviewContainer
+                        ) {
                             voicePreviewContainer.hidden =
                                 false;
                         }
 
-                        if (startRecordingButton) {
-                            startRecordingButton.disabled =
-                                false;
-                            startRecordingButton.textContent =
-                                "Record again";
-                        }
-
-                        if (stopRecordingButton) {
-                            stopRecordingButton.disabled =
-                                true;
-                        }
+                        resetRecordingButtons();
                     }
                 );
 
-                mediaRecorder.start();
+                mediaRecorder.addEventListener(
+                    "error",
+                    event => {
+                        stopRecordingTimer();
+                        closeRecordingStream();
 
-                startRecordingButton.disabled = true;
-                stopRecordingButton.disabled = false;
+                        console.error(
+                            "Recording error:",
+                            event.error
+                        );
+
+                        if (voiceError) {
+                            voiceError.textContent =
+                                "The recording could not be completed.";
+                        }
+
+                        resetRecordingButtons();
+                    }
+                );
+
+                mediaRecorder.start(1000);
+
+                startRecordingButton.disabled =
+                    true;
+
+                stopRecordingButton.disabled =
+                    false;
 
                 if (recordingTimer) {
                     recordingTimer.textContent =
@@ -700,7 +884,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     }, 1000);
 
             } catch (error) {
+                console.error(
+                    "Microphone error:",
+                    error
+                );
+
+                stopRecordingTimer();
                 closeRecordingStream();
+                resetRecordingButtons();
 
                 if (voiceError) {
                     voiceError.textContent =
@@ -710,26 +901,36 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     );
 
+
     stopRecordingButton?.addEventListener(
         "click",
         stopVoiceRecording
     );
 
+
     removeVoiceButton?.addEventListener(
         "click",
         () => {
             voiceBlob = null;
+            recordingChunks = [];
+            recordedVoiceMimeType = "";
 
             if (voicePreview?.src) {
                 URL.revokeObjectURL(
                     voicePreview.src
                 );
 
-                voicePreview.removeAttribute("src");
+                voicePreview.pause();
+                voicePreview.removeAttribute(
+                    "src"
+                );
+
+                voicePreview.load();
             }
 
             if (voicePreviewContainer) {
-                voicePreviewContainer.hidden = true;
+                voicePreviewContainer.hidden =
+                    true;
             }
 
             if (recordingTimer) {
@@ -737,17 +938,19 @@ document.addEventListener("DOMContentLoaded", () => {
                     "00:00";
             }
 
-            if (startRecordingButton) {
-                startRecordingButton.textContent =
-                    "Start recording";
-            }
+            resetRecordingButtons();
         }
     );
 
-    /* SPOTIFY */
+
+    /* ==================================================
+       SPOTIFY
+    ================================================== */
 
     const spotifyInput =
-        document.getElementById("spotifyInput");
+        document.getElementById(
+            "spotifyInput"
+        );
 
     const spotifyPreviewButton =
         document.getElementById(
@@ -780,7 +983,10 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
     const spotifyError =
-        document.getElementById("spotifyError");
+        document.getElementById(
+            "spotifyError"
+        );
+
 
     function isSpotifyTrackUrl(value) {
         try {
@@ -789,19 +995,24 @@ document.addEventListener("DOMContentLoaded", () => {
             return (
                 (
                     url.hostname ===
-                    "open.spotify.com" ||
+                        "open.spotify.com" ||
                     url.hostname ===
-                    "spotify.link"
+                        "spotify.link"
                 ) &&
                 (
-                    url.pathname.includes("/track/") ||
-                    url.hostname === "spotify.link"
+                    url.pathname.includes(
+                        "/track/"
+                    ) ||
+                    url.hostname ===
+                        "spotify.link"
                 )
             );
+
         } catch {
             return false;
         }
     }
+
 
     spotifyPreviewButton?.addEventListener(
         "click",
@@ -825,7 +1036,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            spotifyPreviewButton.disabled = true;
+            spotifyPreviewButton.disabled =
+                true;
+
             spotifyPreviewButton.textContent =
                 "Loading...";
 
@@ -833,7 +1046,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 const response =
                     await fetch(
                         "https://open.spotify.com/oembed?url=" +
-                        encodeURIComponent(spotifyUrl)
+                        encodeURIComponent(
+                            spotifyUrl
+                        )
                     );
 
                 if (!response.ok) {
@@ -851,7 +1066,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         data.title ||
                         "Spotify Song",
                     cover:
-                        data.thumbnail_url || ""
+                        data.thumbnail_url ||
+                        ""
                 };
 
                 if (spotifyCreatorCover) {
@@ -875,19 +1091,28 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
             } catch (error) {
+                console.error(
+                    "Spotify error:",
+                    error
+                );
+
                 spotifyData = null;
 
                 if (spotifyError) {
                     spotifyError.textContent =
                         "This Spotify song could not be loaded.";
                 }
+
             } finally {
-                spotifyPreviewButton.disabled = false;
+                spotifyPreviewButton.disabled =
+                    false;
+
                 spotifyPreviewButton.textContent =
                     "Add song";
             }
         }
     );
+
 
     removeSpotifyButton?.addEventListener(
         "click",
@@ -899,15 +1124,22 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             if (spotifyCreatorPreview) {
-                spotifyCreatorPreview.hidden = true;
+                spotifyCreatorPreview.hidden =
+                    true;
             }
         }
     );
 
-    /* FORMU KAYDET */
+
+    /* ==================================================
+       MEKTUBU VE MEDYALARI KAYDET
+    ================================================== */
 
     const uploadStatus =
-        document.getElementById("uploadStatus");
+        document.getElementById(
+            "uploadStatus"
+        );
+
 
     letterForm?.addEventListener(
         "submit",
@@ -923,7 +1155,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const message =
                 letterMessage.value.trim();
 
-            if (!recipient || !sender || !message) {
+            if (
+                !recipient ||
+                !sender ||
+                !message
+            ) {
                 alert(
                     "Please complete the recipient, your name and the message."
                 );
@@ -948,6 +1184,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 submitButton.textContent;
 
             submitButton.disabled = true;
+
             submitButton.textContent =
                 "Creating your letter...";
 
@@ -959,7 +1196,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 for (
                     let index = 0;
-                    index < selectedPhotos.length;
+                    index <
+                        selectedPhotos.length;
                     index += 1
                 ) {
                     if (uploadStatus) {
@@ -999,14 +1237,32 @@ document.addEventListener("DOMContentLoaded", () => {
                             "Uploading voice note...";
                     }
 
+                    const finalVoiceType =
+                        voiceBlob.type ||
+                        recordedVoiceMimeType ||
+                        "audio/mp4";
+
+                    const voiceExtension =
+                        finalVoiceType.includes(
+                            "webm"
+                        )
+                            ? "webm"
+                            : finalVoiceType.includes(
+                                "mpeg"
+                            )
+                                ? "mp3"
+                                : "m4a";
+
+                    const voiceFileName =
+                        `voice-note.${voiceExtension}`;
+
                     const voiceFile =
                         new File(
                             [voiceBlob],
-                            "voice-note.webm",
+                            voiceFileName,
                             {
                                 type:
-                                    voiceBlob.type ||
-                                    "audio/webm"
+                                    finalVoiceType
                             }
                         );
 
@@ -1014,7 +1270,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         await uploadFile(
                             voiceFile,
                             `${mediaFolder}/voice`,
-                            "voice-note.webm"
+                            voiceFileName
                         );
                 }
 
@@ -1027,19 +1283,29 @@ document.addEventListener("DOMContentLoaded", () => {
                     await supabaseClient.rpc(
                         "create_letter",
                         {
-                            p_recipient: recipient,
-                            p_sender: sender,
-                            p_message: message,
-                            p_photo_urls: photoUrls,
-                            p_video_url: videoUrl,
-                            p_voice_url: voiceUrl,
+                            p_recipient:
+                                recipient,
+                            p_sender:
+                                sender,
+                            p_message:
+                                message,
+                            p_photo_urls:
+                                photoUrls,
+                            p_video_url:
+                                videoUrl,
+                            p_voice_url:
+                                voiceUrl,
                             p_spotify_url:
-                                spotifyData?.url || null,
+                                spotifyData?.url ||
+                                null,
                             p_spotify_title:
-                                spotifyData?.title || null,
-                            p_spotify_artist: null,
+                                spotifyData?.title ||
+                                null,
+                            p_spotify_artist:
+                                null,
                             p_spotify_cover_url:
-                                spotifyData?.cover || null
+                                spotifyData?.cover ||
+                                null
                         }
                     );
 
@@ -1064,24 +1330,33 @@ document.addEventListener("DOMContentLoaded", () => {
                     )}`;
 
             } catch (error) {
-                console.error(error);
+                console.error(
+                    "Upload error:",
+                    error
+                );
 
                 alert(
                     "Your letter or media could not be uploaded. Please try again."
                 );
 
-                submitButton.disabled = false;
+                submitButton.disabled =
+                    false;
+
                 submitButton.textContent =
                     originalText;
 
                 if (uploadStatus) {
-                    uploadStatus.textContent = "";
+                    uploadStatus.textContent =
+                        "";
                 }
             }
         }
     );
 
-    /* ALICI SAYFASI */
+
+    /* ==================================================
+       ALICI SAYFASI
+    ================================================== */
 
     const recipientEnvelope =
         document.getElementById(
@@ -1139,7 +1414,9 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
     const videoCard =
-        document.getElementById("videoCard");
+        document.getElementById(
+            "videoCard"
+        );
 
     const recipientVideo =
         document.getElementById(
@@ -1147,7 +1424,9 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
     const voiceCard =
-        document.getElementById("voiceCard");
+        document.getElementById(
+            "voiceCard"
+        );
 
     const recipientVoice =
         document.getElementById(
@@ -1179,12 +1458,15 @@ document.addEventListener("DOMContentLoaded", () => {
             "openSpotifyLink"
         );
 
+
     function makeSpotifyEmbedUrl(urlValue) {
         try {
-            const url = new URL(urlValue);
+            const url =
+                new URL(urlValue);
 
             if (
-                url.hostname !== "open.spotify.com"
+                url.hostname !==
+                "open.spotify.com"
             ) {
                 return null;
             }
@@ -1208,12 +1490,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 "https://open.spotify.com/embed/track/" +
                 parts[trackIndex + 1]
             );
+
         } catch {
             return null;
         }
     }
 
-    function createRecipientPhotos(photoUrls) {
+
+    function createRecipientPhotos(
+        photoUrls
+    ) {
         if (
             !photoUrls?.length ||
             !recipientPhotoGrid
@@ -1223,50 +1509,71 @@ document.addEventListener("DOMContentLoaded", () => {
 
         recipientPhotoGrid.innerHTML = "";
 
-        photoUrls.forEach((url, index) => {
-            const button =
-                document.createElement("button");
+        photoUrls.forEach(
+            (url, index) => {
+                const button =
+                    document.createElement(
+                        "button"
+                    );
 
-            button.type = "button";
-            button.className =
-                "recipient-photo-button";
+                button.type = "button";
 
-            const image =
-                document.createElement("img");
+                button.className =
+                    "recipient-photo-button";
 
-            image.src = url;
-            image.alt =
-                `Memory ${index + 1}`;
+                const image =
+                    document.createElement(
+                        "img"
+                    );
 
-            button.appendChild(image);
+                image.src = url;
 
-            button.addEventListener(
-                "click",
-                () => openPhotoLightbox(url)
-            );
+                image.alt =
+                    `Memory ${index + 1}`;
 
-            recipientPhotoGrid.appendChild(button);
-        });
+                button.appendChild(image);
+
+                button.addEventListener(
+                    "click",
+                    () =>
+                        openPhotoLightbox(
+                            url
+                        )
+                );
+
+                recipientPhotoGrid
+                    .appendChild(button);
+            }
+        );
 
         if (photoCardCover) {
-            photoCardCover.style.backgroundImage =
+            photoCardCover.style
+                .backgroundImage =
                 `url("${photoUrls[0]}")`;
         }
 
-        photoGalleryCard.hidden = false;
+        if (photoGalleryCard) {
+            photoGalleryCard.hidden =
+                false;
+        }
+
         return true;
     }
+
 
     function createSpotifyCard(letter) {
         if (!letter.spotify_url) {
             return false;
         }
 
-        spotifyCard.hidden = false;
+        if (spotifyCard) {
+            spotifyCard.hidden = false;
+        }
 
         if (spotifyCardCover) {
             spotifyCardCover.src =
-                letter.spotify_cover_url || "";
+                letter.spotify_cover_url ||
+                "";
         }
 
         if (recipientSpotifyTitle) {
@@ -1290,23 +1597,30 @@ document.addEventListener("DOMContentLoaded", () => {
             spotifyEmbedContainer
         ) {
             const iframe =
-                document.createElement("iframe");
+                document.createElement(
+                    "iframe"
+                );
 
             iframe.src = embedUrl;
+
             iframe.title =
                 "Spotify song";
+
             iframe.allow =
                 "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture";
+
             iframe.loading = "lazy";
 
-            spotifyEmbedContainer.innerHTML = "";
-            spotifyEmbedContainer.appendChild(
-                iframe
-            );
+            spotifyEmbedContainer.innerHTML =
+                "";
+
+            spotifyEmbedContainer
+                .appendChild(iframe);
         }
 
         return true;
     }
+
 
     async function loadOnlineLetter() {
         if (!finalLetterSection) {
@@ -1316,10 +1630,18 @@ document.addEventListener("DOMContentLoaded", () => {
         const letterId =
             getLetterIdFromUrl();
 
-        if (!letterId || !supabaseClient) {
-            openLetterButton.disabled = true;
-            openLetterButton.textContent =
-                "Invalid letter link";
+        if (
+            !letterId ||
+            !supabaseClient
+        ) {
+            if (openLetterButton) {
+                openLetterButton.disabled =
+                    true;
+
+                openLetterButton.textContent =
+                    "Invalid letter link";
+            }
+
             return;
         }
 
@@ -1347,14 +1669,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
             }
 
-            finalLetterTo.textContent =
-                `Dear ${letter.recipient},`;
+            if (finalLetterTo) {
+                finalLetterTo.textContent =
+                    `Dear ${letter.recipient},`;
+            }
 
-            finalLetterMessage.textContent =
-                letter.message;
+            if (finalLetterMessage) {
+                finalLetterMessage.textContent =
+                    letter.message;
+            }
 
-            finalLetterFrom.innerHTML =
-                `With love,<br>${letter.sender}`;
+            if (finalLetterFrom) {
+                finalLetterFrom.innerHTML =
+                    `With love,<br>${letter.sender}`;
+            }
 
             let hasMedia = false;
 
@@ -1366,65 +1694,109 @@ document.addEventListener("DOMContentLoaded", () => {
                 hasMedia = true;
             }
 
-            if (letter.video_url) {
+            if (
+                letter.video_url &&
+                videoCard &&
+                recipientVideo
+            ) {
                 videoCard.hidden = false;
+
                 recipientVideo.src =
                     letter.video_url;
+
+                recipientVideo.load();
+
                 hasMedia = true;
             }
 
-            if (letter.voice_url) {
+            if (
+                letter.voice_url &&
+                voiceCard &&
+                recipientVoice
+            ) {
                 voiceCard.hidden = false;
+
                 recipientVoice.src =
                     letter.voice_url;
+
+                recipientVoice.load();
+
                 hasMedia = true;
             }
 
-            if (createSpotifyCard(letter)) {
+            if (
+                createSpotifyCard(
+                    letter
+                )
+            ) {
                 hasMedia = true;
             }
 
-            if (hasMedia) {
-                recipientMediaGrid.hidden = false;
+            if (
+                hasMedia &&
+                recipientMediaGrid
+            ) {
+                recipientMediaGrid.hidden =
+                    false;
             }
 
-            openLetterButton.disabled = false;
-            openLetterButton.textContent =
-                "Open your letter";
+            if (openLetterButton) {
+                openLetterButton.disabled =
+                    false;
+
+                openLetterButton.textContent =
+                    "Open your letter";
+            }
 
         } catch (error) {
-            console.error(error);
+            console.error(
+                "Letter loading error:",
+                error
+            );
 
-            openLetterButton.disabled = true;
-            openLetterButton.textContent =
-                "Letter unavailable";
+            if (openLetterButton) {
+                openLetterButton.disabled =
+                    true;
+
+                openLetterButton.textContent =
+                    "Letter unavailable";
+            }
         }
     }
+
 
     function openRecipientLetter() {
         recipientEnvelope?.classList.add(
             "open"
         );
 
-        openLetterButton.disabled = true;
-        openLetterButton.textContent =
-            "Opening...";
+        if (openLetterButton) {
+            openLetterButton.disabled =
+                true;
+
+            openLetterButton.textContent =
+                "Opening...";
+        }
 
         window.setTimeout(() => {
-            recipientEnvelopeSection?.classList.add(
-                "hidden"
-            );
+            recipientEnvelopeSection
+                ?.classList.add(
+                    "hidden"
+                );
 
-            finalLetterSection?.classList.add(
-                "visible"
-            );
+            finalLetterSection
+                ?.classList.add(
+                    "visible"
+                );
         }, 1000);
     }
+
 
     recipientEnvelope?.addEventListener(
         "click",
         openRecipientLetter
     );
+
 
     recipientEnvelope?.addEventListener(
         "keydown",
@@ -1439,24 +1811,33 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     );
 
+
     openLetterButton?.addEventListener(
         "click",
         openRecipientLetter
     );
 
+
     loadOnlineLetter();
 
-    /* MEDYA KARTLARINI AÇ */
+
+    /* ==================================================
+       AÇILIR MEDYA KARTLARI
+    ================================================== */
 
     function connectExpandableCard(
         triggerId,
         contentId
     ) {
         const trigger =
-            document.getElementById(triggerId);
+            document.getElementById(
+                triggerId
+            );
 
         const content =
-            document.getElementById(contentId);
+            document.getElementById(
+                contentId
+            );
 
         trigger?.addEventListener(
             "click",
@@ -1466,6 +1847,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         );
     }
+
 
     connectExpandableCard(
         "photoGalleryTrigger",
@@ -1487,7 +1869,10 @@ document.addEventListener("DOMContentLoaded", () => {
         "spotifyCardContent"
     );
 
-    /* FOTOĞRAF LIGHTBOX */
+
+    /* ==================================================
+       FOTOĞRAF LIGHTBOX
+    ================================================== */
 
     const photoLightbox =
         document.getElementById(
@@ -1504,8 +1889,12 @@ document.addEventListener("DOMContentLoaded", () => {
             "closeLightboxButton"
         );
 
+
     function openPhotoLightbox(url) {
-        if (!photoLightbox || !lightboxImage) {
+        if (
+            !photoLightbox ||
+            !lightboxImage
+        ) {
             return;
         }
 
@@ -1513,30 +1902,41 @@ document.addEventListener("DOMContentLoaded", () => {
         photoLightbox.hidden = false;
     }
 
+
     function closePhotoLightbox() {
         if (photoLightbox) {
             photoLightbox.hidden = true;
         }
     }
 
+
     closeLightboxButton?.addEventListener(
         "click",
         closePhotoLightbox
     );
 
+
     photoLightbox?.addEventListener(
         "click",
         event => {
-            if (event.target === photoLightbox) {
+            if (
+                event.target ===
+                photoLightbox
+            ) {
                 closePhotoLightbox();
             }
         }
     );
 
-    /* PAYLAŞIM SAYFASI */
+
+    /* ==================================================
+       PAYLAŞIM SAYFASI
+    ================================================== */
 
     const shareLinkInput =
-        document.getElementById("shareLink");
+        document.getElementById(
+            "shareLink"
+        );
 
     const copyLinkButton =
         document.getElementById(
@@ -1568,13 +1968,16 @@ document.addEventListener("DOMContentLoaded", () => {
             "previewLetterLink"
         );
 
+
     if (shareLinkInput) {
         const letterId =
             getLetterIdFromUrl();
 
         if (letterId) {
             const letterUrl =
-                buildLetterUrl(letterId);
+                buildLetterUrl(
+                    letterId
+                );
 
             shareLinkInput.value =
                 letterUrl;
@@ -1588,8 +1991,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 "click",
                 async () => {
                     try {
-                        await navigator.clipboard
-                            .writeText(letterUrl);
+                        await navigator
+                            .clipboard
+                            .writeText(
+                                letterUrl
+                            );
 
                         copyLinkButton.textContent =
                             "Copied!";
@@ -1598,9 +2004,12 @@ document.addEventListener("DOMContentLoaded", () => {
                             copyStatus.textContent =
                                 "The link has been copied.";
                         }
+
                     } catch {
                         shareLinkInput.select();
-                        document.execCommand("copy");
+                        document.execCommand(
+                            "copy"
+                        );
                     }
                 }
             );
@@ -1639,17 +2048,36 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (!navigator.share) {
                     nativeShareButton.hidden =
                         true;
+
                 } else {
-                    nativeShareButton.addEventListener(
-                        "click",
-                        () => navigator.share({
-                            title:
-                                "A letter for you",
-                            text:
-                                "I made a special letter for you.",
-                            url: letterUrl
-                        })
-                    );
+                    nativeShareButton
+                        .addEventListener(
+                            "click",
+                            async () => {
+                                try {
+                                    await navigator
+                                        .share({
+                                            title:
+                                                "A letter for you",
+                                            text:
+                                                "I made a special letter for you.",
+                                            url:
+                                                letterUrl
+                                        });
+
+                                } catch (error) {
+                                    if (
+                                        error.name !==
+                                        "AbortError"
+                                    ) {
+                                        console.error(
+                                            "Share error:",
+                                            error
+                                        );
+                                    }
+                                }
+                            }
+                        );
                 }
             }
         }

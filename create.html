@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Create Your Letter | Dearly</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="create-page">
+
+    <header class="top-bar">
+        <a href="index.html" class="logo-link">
+            Dearly
+        </a>
+
+        <a href="index.html" class="back-link">
+            ← Back home
+        </a>
+    </header>
+
+    <main class="creator-layout">
+
+        <!-- Sol taraftaki ön izleme -->
+        <section class="preview-section">
+
+            <p class="section-label">
+                Letter preview
+            </p>
+
+            <div class="letter-card" id="letterPreview">
+
+                <p class="preview-to" id="previewTo">
+                    Dear someone special,
+                </p>
+
+                <p class="preview-message" id="previewMessage">
+                    Your message will appear here as you write it.
+                </p>
+
+                <p class="preview-from" id="previewFrom">
+                    With love,
+                    <br>
+                    Your name
+                </p>
+
+            </div>
+
+        </section>
+
+        <!-- Sağ taraftaki hazırlama alanı -->
+        <section class="editor-section">
+
+            <p class="section-label">
+                Create your letter
+            </p>
+
+            <h1 class="creator-title">
+                Make something they will remember.
+            </h1>
+
+            <p class="creator-description">
+                Write your message and add special memories.
+            </p>
+
+            <form id="letterForm">
+
+                <div class="form-group">
+                    <label for="recipientName">
+                        Who is this letter for?
+                    </label>
+
+                    <input
+                        type="text"
+                        id="recipientName"
+                        placeholder="Their name"
+                        maxlength="50"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="senderName">
+                        Your name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="senderName"
+                        placeholder="Your name"
+                        maxlength="50"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="letterMessage">
+                        Your message
+                    </label>
+
+                    <textarea
+                        id="letterMessage"
+                        placeholder="Write something meaningful..."
+                        maxlength="2000"
+                        rows="9"
+                    ></textarea>
+
+                    <p class="character-counter">
+                        <span id="characterCount">0</span>
+                        / 2000
+                    </p>
+                </div>
+
+                <div class="memory-section">
+
+                    <h2>
+                        Add something special
+                    </h2>
+
+                    <div class="memory-grid">
+
+                        <button
+                            type="button"
+                            class="memory-button"
+                            id="photoButton"
+                        >
+                            <span class="memory-icon">▧</span>
+
+                            <span>
+                                Add photos
+                            </span>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="memory-button"
+                            id="songButton"
+                        >
+                            <span class="memory-icon">♫</span>
+
+                            <span>
+                                Add a song
+                            </span>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="memory-button"
+                            id="voiceButton"
+                        >
+                            <span class="memory-icon">◉</span>
+
+                            <span>
+                                Add a voice note
+                            </span>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="memory-button"
+                            id="surpriseButton"
+                        >
+                            <span class="memory-icon">✦</span>
+
+                            <span>
+                                Add a surprise
+                            </span>
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="create-letter-button"
+                >
+                    Create my letter
+                </button>
+
+            </form>
+
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

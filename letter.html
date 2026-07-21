@@ -23,9 +23,10 @@
 
     <main class="recipient-main">
 
-        <!-- İlk başta yalnızca zarf görünür -->
-        <section class="recipient-envelope-section" id="recipientEnvelopeSection">
-
+        <section
+            class="recipient-envelope-section"
+            id="recipientEnvelopeSection"
+        >
             <p class="recipient-small-text">
                 A letter is waiting for you.
             </p>
@@ -56,25 +57,34 @@
                 class="open-letter-button"
                 id="openLetterButton"
             >
-                Open your letter
+                Loading your letter...
             </button>
-
         </section>
 
-        <!-- Zarf açılınca mektup görünür -->
-        <section class="final-letter-section" id="finalLetterSection">
-
+        <section
+            class="final-letter-section"
+            id="finalLetterSection"
+        >
             <article class="final-letter-card">
 
-                <p class="final-letter-to" id="finalLetterTo">
+                <p
+                    class="final-letter-to"
+                    id="finalLetterTo"
+                >
                     Dear someone special,
                 </p>
 
-                <p class="final-letter-message" id="finalLetterMessage">
+                <p
+                    class="final-letter-message"
+                    id="finalLetterMessage"
+                >
                     Your letter will appear here.
                 </p>
 
-                <p class="final-letter-from" id="finalLetterFrom">
+                <p
+                    class="final-letter-from"
+                    id="finalLetterFrom"
+                >
                     With love,
                     <br>
                     Someone special
@@ -82,15 +92,226 @@
 
             </article>
 
-            <a href="create.html" class="make-own-letter-link">
+            <section
+                class="recipient-media-grid"
+                id="recipientMediaGrid"
+                hidden
+            >
+
+                <!-- Sol üst: Fotoğraflar -->
+
+                <article
+                    class="recipient-media-card photo-gallery-card"
+                    id="photoGalleryCard"
+                    hidden
+                >
+                    <button
+                        type="button"
+                        class="media-card-trigger"
+                        id="photoGalleryTrigger"
+                    >
+                        <div
+                            class="media-card-image-area"
+                            id="photoCardCover"
+                        ></div>
+
+                        <div class="media-card-label">
+                            <span class="media-card-small">
+                                Memories
+                            </span>
+
+                            <strong>
+                                Photo Gallery
+                            </strong>
+                        </div>
+                    </button>
+
+                    <div
+                        class="expanded-media-content"
+                        id="photoGalleryContent"
+                        hidden
+                    >
+                        <div
+                            class="recipient-photo-grid"
+                            id="recipientPhotoGrid"
+                        ></div>
+                    </div>
+                </article>
+
+                <!-- Sağ üst: Video -->
+
+                <article
+                    class="recipient-media-card"
+                    id="videoCard"
+                    hidden
+                >
+                    <button
+                        type="button"
+                        class="media-card-trigger"
+                        id="videoCardTrigger"
+                    >
+                        <div class="media-card-illustration video-illustration">
+                            ▶
+                        </div>
+
+                        <div class="media-card-label">
+                            <span class="media-card-small">
+                                A moment
+                            </span>
+
+                            <strong>
+                                Video
+                            </strong>
+                        </div>
+                    </button>
+
+                    <div
+                        class="expanded-media-content"
+                        id="videoCardContent"
+                        hidden
+                    >
+                        <video
+                            id="recipientVideo"
+                            controls
+                            playsinline
+                        ></video>
+                    </div>
+                </article>
+
+                <!-- Sol alt: Ses -->
+
+                <article
+                    class="recipient-media-card"
+                    id="voiceCard"
+                    hidden
+                >
+                    <button
+                        type="button"
+                        class="media-card-trigger"
+                        id="voiceCardTrigger"
+                    >
+                        <div class="media-card-illustration voice-illustration">
+                            ◉
+                        </div>
+
+                        <div class="media-card-label">
+                            <span class="media-card-small">
+                                Listen closely
+                            </span>
+
+                            <strong>
+                                Voice Note
+                            </strong>
+                        </div>
+                    </button>
+
+                    <div
+                        class="expanded-media-content"
+                        id="voiceCardContent"
+                        hidden
+                    >
+                        <audio
+                            id="recipientVoice"
+                            controls
+                        ></audio>
+                    </div>
+                </article>
+
+                <!-- Sağ alt: Spotify -->
+
+                <article
+                    class="recipient-media-card spotify-recipient-card"
+                    id="spotifyCard"
+                    hidden
+                >
+                    <button
+                        type="button"
+                        class="media-card-trigger spotify-card-trigger"
+                        id="spotifyCardTrigger"
+                    >
+                        <img
+                            class="spotify-card-cover"
+                            id="spotifyCardCover"
+                            alt="Spotify song cover"
+                        >
+
+                        <div class="media-card-label">
+                            <span class="media-card-small">
+                                A song for you
+                            </span>
+
+                            <strong>
+                                Spotify Song
+                            </strong>
+                        </div>
+                    </button>
+
+                    <div
+                        class="expanded-media-content spotify-expanded-content"
+                        id="spotifyCardContent"
+                        hidden
+                    >
+                        <h3 id="recipientSpotifyTitle">
+                            Spotify Song
+                        </h3>
+
+                        <div
+                            class="spotify-embed-container"
+                            id="spotifyEmbedContainer"
+                        ></div>
+
+                        <p class="spotify-or">
+                            or
+                        </p>
+
+                        <a
+                            href="#"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="open-spotify-button"
+                            id="openSpotifyLink"
+                        >
+                            Open in Spotify
+                        </a>
+                    </div>
+                </article>
+
+            </section>
+
+            <a
+                href="create.html"
+                class="make-own-letter-link"
+            >
                 Create your own letter
             </a>
-
         </section>
 
     </main>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="./script.js"></script>
+    <div
+        class="photo-lightbox"
+        id="photoLightbox"
+        hidden
+    >
+        <button
+            type="button"
+            class="close-lightbox-button"
+            id="closeLightboxButton"
+            aria-label="Close photo"
+        >
+            ×
+        </button>
+
+        <img
+            id="lightboxImage"
+            alt="Selected memory"
+        >
+    </div>
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+    ></script>
+
+    <script src="./script.js"></script>
 </body>
 </html>

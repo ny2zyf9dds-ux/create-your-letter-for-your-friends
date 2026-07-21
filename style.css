@@ -105,3 +105,123 @@ h1{
     transform:translateY(-3px);
 
 }
+/* Gerçek zarf alanı */
+
+.envelope{
+    position:relative;
+    width:280px;
+    height:190px;
+    margin:0 auto 45px;
+    cursor:pointer;
+    perspective:1000px;
+}
+
+.envelope-back{
+    position:absolute;
+    inset:0;
+    background:#dca0b3;
+    border-radius:8px;
+    box-shadow:0 18px 35px rgba(120, 70, 90, .18);
+}
+
+.envelope-front{
+    position:absolute;
+    left:0;
+    bottom:0;
+    width:0;
+    height:0;
+    border-left:140px solid #efbfd0;
+    border-right:140px solid #efbfd0;
+    border-top:95px solid transparent;
+    border-bottom:95px solid #e7afc2;
+    z-index:4;
+}
+
+.envelope-flap{
+    position:absolute;
+    top:0;
+    left:0;
+    width:0;
+    height:0;
+    border-left:140px solid transparent;
+    border-right:140px solid transparent;
+    border-top:105px solid #c9829b;
+    transform-origin:top;
+    transition:transform .8s ease;
+    z-index:6;
+}
+
+.letter-preview{
+    position:absolute;
+    left:22px;
+    bottom:18px;
+    width:236px;
+    height:145px;
+    background:#fffaf7;
+    border-radius:6px;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    padding-top:25px;
+    box-sizing:border-box;
+    color:#9b6578;
+    font-family:'Cormorant Garamond',serif;
+    font-size:24px;
+    transition:transform .8s ease;
+    z-index:2;
+    box-shadow:0 8px 18px rgba(0,0,0,.08);
+}
+
+.seal{
+    position:absolute;
+    left:50%;
+    top:72px;
+    transform:translateX(-50%);
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    background:#a85f79;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Cormorant Garamond',serif;
+    font-size:25px;
+    font-weight:600;
+    z-index:8;
+    box-shadow:0 5px 12px rgba(90,40,60,.25);
+    transition:opacity .3s ease;
+}
+
+/* Zarf açılınca */
+
+.envelope.open .envelope-flap{
+    transform:rotateX(180deg);
+    z-index:1;
+}
+
+.envelope.open .letter-preview{
+    transform:translateY(-75px);
+}
+
+.envelope.open .seal{
+    opacity:0;
+}
+
+/* Telefonda daha küçük görünüm */
+
+@media (max-width:600px){
+
+    .hero{
+        padding:40px 22px;
+    }
+
+    h1{
+        font-size:48px;
+    }
+
+    .envelope{
+        transform:scale(.88);
+        margin-bottom:30px;
+    }
+}

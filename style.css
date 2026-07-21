@@ -1560,3 +1560,20 @@ a {
         height: 125px;
     }
 }
+.site-credit {
+    width: 100%;
+    padding: 18px 12px 28px;
+    text-align: center;
+}
+
+.site-credit p {
+    margin: 0;
+    color: #000000;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.creator-name {
+    color: #f4b6c2;
+    font-weight: 700;
+}

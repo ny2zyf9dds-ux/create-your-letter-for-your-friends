@@ -1094,3 +1094,469 @@ a {
         font-size: 23px;
     }
 }
+/* ==================================================
+   MEDYA SEÇİM PANELLERİ
+================================================== */
+
+.media-input-panel {
+    margin-top: 18px;
+    padding: 22px;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.72);
+}
+
+.media-input-panel[hidden] {
+    display: none;
+}
+
+.media-panel-heading {
+    margin-bottom: 18px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.media-panel-heading h3 {
+    margin: 0 0 5px;
+    color: var(--brown);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+}
+
+.media-panel-heading p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.file-picker-label,
+.record-button,
+.spotify-input-row button {
+    display: inline-flex;
+    min-height: 45px;
+    padding: 11px 18px;
+    border: 0;
+    border-radius: 12px;
+    background: var(--pink-dark);
+    color: white;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.record-button.secondary {
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--text);
+}
+
+.record-button:disabled {
+    cursor: default;
+    opacity: 0.5;
+}
+
+.recording-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.selected-photo-grid {
+    margin-top: 17px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.selected-photo-item {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 12px;
+    background: var(--pink-light);
+}
+
+.selected-photo-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.remove-photo-button {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(70, 44, 52, 0.82);
+    color: white;
+    cursor: pointer;
+}
+
+.selected-media-preview {
+    margin-top: 18px;
+}
+
+.selected-media-preview video {
+    width: 100%;
+    max-height: 350px;
+    border-radius: 14px;
+    background: #241e20;
+}
+
+.selected-media-preview audio {
+    width: 100%;
+}
+
+.remove-media-button {
+    margin-top: 10px;
+    padding: 8px 0;
+    border: 0;
+    background: transparent;
+    color: var(--pink-dark);
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.spotify-input-row {
+    display: flex;
+    gap: 10px;
+}
+
+.spotify-input-row input {
+    min-width: 0;
+    flex: 1;
+    min-height: 47px;
+    padding: 0 14px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    outline: none;
+}
+
+.spotify-creator-preview {
+    margin-top: 17px;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: white;
+    display: grid;
+    grid-template-columns: 70px 1fr auto;
+    align-items: center;
+    gap: 13px;
+}
+
+.spotify-creator-preview[hidden] {
+    display: none;
+}
+
+.spotify-creator-preview img {
+    width: 70px;
+    height: 70px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.spotify-creator-preview div {
+    min-width: 0;
+}
+
+.spotify-creator-preview strong,
+.spotify-creator-preview span {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.spotify-creator-preview span {
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.media-error {
+    min-height: 18px;
+    margin: 10px 0 0;
+    color: #b44f63;
+    font-size: 12px;
+}
+
+.upload-status {
+    min-height: 22px;
+    margin: 22px 0 -15px;
+    color: var(--pink-dark);
+    font-size: 13px;
+    text-align: center;
+}
+
+/* ==================================================
+   ALICI MEDYA KARTLARI
+================================================== */
+
+.recipient-media-grid {
+    width: min(820px, 100%);
+    margin: 32px auto 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    align-items: start;
+}
+
+.recipient-media-grid[hidden] {
+    display: none;
+}
+
+.recipient-media-card {
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.92);
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.84);
+    box-shadow: 0 15px 38px rgba(100, 68, 79, 0.12);
+}
+
+.media-card-trigger {
+    width: 100%;
+    height: 145px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: 40% 60%;
+    align-items: stretch;
+    text-align: left;
+}
+
+.media-card-image-area,
+.media-card-illustration,
+.spotify-card-cover {
+    width: 100%;
+    height: 145px;
+}
+
+.media-card-image-area {
+    background-position: center;
+    background-size: cover;
+}
+
+.media-card-illustration {
+    display: grid;
+    place-items: center;
+    background:
+        radial-gradient(circle at top, rgba(255, 255, 255, 0.45), transparent 45%),
+        linear-gradient(135deg, #d99caf, #b76d86);
+    color: white;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 43px;
+}
+
+.video-illustration {
+    background:
+        linear-gradient(rgba(104, 72, 82, 0.18), rgba(104, 72, 82, 0.18)),
+        linear-gradient(135deg, #ddacb9, #9a6577);
+}
+
+.voice-illustration {
+    background:
+        linear-gradient(rgba(104, 72, 82, 0.12), rgba(104, 72, 82, 0.12)),
+        linear-gradient(135deg, #eed3da, #b57a8d);
+}
+
+.spotify-card-cover {
+    display: block;
+    object-fit: cover;
+    background: #292326;
+}
+
+.media-card-label {
+    min-width: 0;
+    padding: 23px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.media-card-small {
+    margin-bottom: 7px;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+}
+
+.media-card-label strong {
+    color: var(--brown);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 27px;
+    line-height: 1;
+}
+
+.expanded-media-content {
+    padding: 18px;
+    border-top: 1px solid var(--border);
+}
+
+.expanded-media-content[hidden] {
+    display: none;
+}
+
+.recipient-photo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.recipient-photo-button {
+    padding: 0;
+    border: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    background: transparent;
+    cursor: pointer;
+    aspect-ratio: 1;
+}
+
+.recipient-photo-button img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+#recipientVideo {
+    width: 100%;
+    max-height: 400px;
+    border-radius: 13px;
+    background: #221d1f;
+}
+
+#recipientVoice {
+    width: 100%;
+}
+
+.spotify-expanded-content h3 {
+    margin: 0 0 15px;
+    color: var(--brown);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    text-align: center;
+}
+
+.spotify-embed-container iframe {
+    width: 100%;
+    height: 152px;
+    border: 0;
+    border-radius: 12px;
+}
+
+.spotify-or {
+    margin: 16px 0;
+    color: var(--muted);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    text-align: center;
+}
+
+.open-spotify-button {
+    width: 100%;
+    min-height: 47px;
+    border-radius: 999px;
+    background: #1db954;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.photo-lightbox {
+    position: fixed;
+    inset: 0;
+    padding: 35px;
+    background: rgba(35, 26, 29, 0.9);
+    display: grid;
+    place-items: center;
+    z-index: 1000;
+}
+
+.photo-lightbox[hidden] {
+    display: none;
+}
+
+.photo-lightbox img {
+    max-width: min(900px, 100%);
+    max-height: 85vh;
+    border-radius: 12px;
+    object-fit: contain;
+}
+
+.close-lightbox-button {
+    position: fixed;
+    top: 18px;
+    right: 22px;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 50%;
+    background: white;
+    color: var(--brown);
+    cursor: pointer;
+    font-size: 29px;
+}
+
+/* TELEFON */
+
+@media (max-width: 650px) {
+    .selected-photo-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .spotify-input-row {
+        flex-direction: column;
+    }
+
+    .spotify-input-row button {
+        width: 100%;
+    }
+
+    .spotify-creator-preview {
+        grid-template-columns: 58px 1fr;
+    }
+
+    .spotify-creator-preview img {
+        width: 58px;
+        height: 58px;
+    }
+
+    .spotify-creator-preview .remove-media-button {
+        grid-column: 1 / -1;
+        margin: 0;
+        text-align: left;
+    }
+
+    .recipient-media-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .media-card-trigger {
+        height: 125px;
+    }
+
+    .media-card-image-area,
+    .media-card-illustration,
+    .spotify-card-cover {
+        height: 125px;
+    }
+}

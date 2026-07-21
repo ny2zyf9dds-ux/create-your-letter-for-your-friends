@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Your Letter | Dearly</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="recipient-page">
+
+    <header class="recipient-header">
+        <a href="index.html" class="logo-link">
+            Dearly
+        </a>
+    </header>
+
+    <main class="recipient-main">
+
+        <!-- İlk başta yalnızca zarf görünür -->
+        <section class="recipient-envelope-section" id="recipientEnvelopeSection">
+
+            <p class="recipient-small-text">
+                A letter is waiting for you.
+            </p>
+
+            <div
+                class="recipient-envelope"
+                id="recipientEnvelope"
+                role="button"
+                tabindex="0"
+                aria-label="Open your letter"
+            >
+                <div class="recipient-envelope-back"></div>
+
+                <div class="recipient-paper">
+                    Dear you,
+                </div>
+
+                <div class="recipient-envelope-front"></div>
+                <div class="recipient-envelope-flap"></div>
+
+                <div class="recipient-seal">
+                    D
+                </div>
+            </div>
+
+            <button
+                type="button"
+                class="open-letter-button"
+                id="openLetterButton"
+            >
+                Open your letter
+            </button>
+
+        </section>
+
+        <!-- Zarf açılınca mektup görünür -->
+        <section class="final-letter-section" id="finalLetterSection">
+
+            <article class="final-letter-card">
+
+                <p class="final-letter-to" id="finalLetterTo">
+                    Dear someone special,
+                </p>
+
+                <p class="final-letter-message" id="finalLetterMessage">
+                    Your letter will appear here.
+                </p>
+
+                <p class="final-letter-from" id="finalLetterFrom">
+                    With love,
+                    <br>
+                    Someone special
+                </p>
+
+            </article>
+
+            <a href="create.html" class="make-own-letter-link">
+                Create your own letter
+            </a>
+
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

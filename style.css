@@ -897,6 +897,193 @@ a {
     .final-letter-to {
         font-size: 25px;
     }
+    /* ==================================================
+   PAYLAŞIM SAYFASI
+================================================== */
+
+.share-page {
+    min-height: 100vh;
+}
+
+.share-main {
+    width: min(720px, calc(100% - 30px));
+    min-height: calc(100vh - 110px);
+    margin: 0 auto;
+    padding: 35px 0 80px;
+    display: grid;
+    place-items: center;
+}
+
+.share-card {
+    width: 100%;
+    padding: 55px;
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.84);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(14px);
+    text-align: center;
+}
+
+.share-success-icon {
+    width: 68px;
+    height: 68px;
+    margin: 0 auto 25px;
+    border-radius: 50%;
+    background: linear-gradient(
+        135deg,
+        var(--pink),
+        var(--pink-dark)
+    );
+    color: white;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 12px 25px
+        rgba(184, 111, 136, 0.25);
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.share-title {
+    max-width: 540px;
+    margin: 0 auto 15px;
+    color: var(--brown);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(42px, 7vw, 60px);
+    font-weight: 600;
+    line-height: 1.05;
+}
+
+.share-description {
+    margin: 0 auto 35px;
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+.share-link-box {
+    padding: 7px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: white;
+    display: flex;
+    gap: 8px;
+}
+
+.share-link-box input {
+    min-width: 0;
+    flex: 1;
+    padding: 0 13px;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--text);
+    font-size: 13px;
+}
+
+.copy-link-button {
+    min-width: 90px;
+    padding: 13px 18px;
+    border: 0;
+    border-radius: 11px;
+    background: var(--pink-dark);
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.copy-link-button:disabled {
+    opacity: 0.55;
+    cursor: default;
+}
+
+.copy-status {
+    min-height: 20px;
+    margin: 9px 0 15px;
+    color: var(--pink-dark);
+    font-size: 12px;
+}
+
+.share-options {
+    margin-top: 22px;
+    display: grid;
+    gap: 12px;
+}
+
+.share-option-button {
+    width: 100%;
+    min-height: 60px;
+    padding: 12px 18px;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-align: left;
+    font-weight: 600;
+    transition:
+        transform 0.22s ease,
+        border-color 0.22s ease,
+        box-shadow 0.22s ease;
+}
+
+.share-option-button:hover {
+    transform: translateY(-2px);
+    border-color: var(--pink);
+    box-shadow: 0 10px 22px
+        rgba(110, 75, 87, 0.09);
+}
+
+.share-option-icon {
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    border-radius: 50%;
+    background: var(--pink-light);
+    color: var(--pink-dark);
+    display: grid;
+    place-items: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.preview-letter-link {
+    display: inline-block;
+    margin-top: 30px;
+    color: var(--pink-dark);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.preview-letter-link:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+    .share-card {
+        padding: 38px 22px;
+        border-radius: 23px;
+    }
+
+    .share-link-box {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .share-link-box input {
+        min-height: 45px;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .copy-link-button {
+        width: 100%;
+    }
+}
 
     .final-letter-message {
         min-height: 275px;

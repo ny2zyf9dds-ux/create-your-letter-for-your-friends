@@ -27,24 +27,29 @@
 
     <main class="creator-layout">
 
-        <!-- Sol taraftaki ön izleme -->
         <section class="preview-section">
 
             <p class="section-label">
                 Letter preview
             </p>
 
-            <div class="letter-card" id="letterPreview">
+            <div class="letter-card">
 
                 <p class="preview-to" id="previewTo">
                     Dear someone special,
                 </p>
 
-                <p class="preview-message" id="previewMessage">
+                <p
+                    class="preview-message"
+                    id="previewMessage"
+                >
                     Your message will appear here as you write it.
                 </p>
 
-                <p class="preview-from" id="previewFrom">
+                <p
+                    class="preview-from"
+                    id="previewFrom"
+                >
                     With love,
                     <br>
                     Your name
@@ -54,7 +59,6 @@
 
         </section>
 
-        <!-- Sağ taraftaki hazırlama alanı -->
         <section class="editor-section">
 
             <p class="section-label">
@@ -81,6 +85,7 @@
                         id="recipientName"
                         placeholder="Their name"
                         maxlength="50"
+                        required
                     >
                 </div>
 
@@ -94,6 +99,7 @@
                         id="senderName"
                         placeholder="Your name"
                         maxlength="50"
+                        required
                     >
                 </div>
 
@@ -107,6 +113,7 @@
                         placeholder="Write something meaningful..."
                         maxlength="2000"
                         rows="9"
+                        required
                     ></textarea>
 
                     <p class="character-counter">
@@ -123,57 +130,312 @@
 
                     <div class="memory-grid">
 
+                        <!-- FOTOĞRAF -->
+
                         <button
                             type="button"
                             class="memory-button"
                             id="photoButton"
+                            aria-expanded="false"
+                            aria-controls="photoPanel"
                         >
                             <span class="memory-icon">▧</span>
-
-                            <span>
-                                Add photos
-                            </span>
+                            <span>Add photos</span>
                         </button>
+
+                        <!-- VİDEO -->
 
                         <button
                             type="button"
                             class="memory-button"
-                            id="songButton"
+                            id="videoButton"
+                            aria-expanded="false"
+                            aria-controls="videoPanel"
                         >
-                            <span class="memory-icon">♫</span>
-
-                            <span>
-                                Add a song
-                            </span>
+                            <span class="memory-icon">▶</span>
+                            <span>Add a video</span>
                         </button>
+
+                        <!-- SES -->
 
                         <button
                             type="button"
                             class="memory-button"
                             id="voiceButton"
+                            aria-expanded="false"
+                            aria-controls="voicePanel"
                         >
                             <span class="memory-icon">◉</span>
-
-                            <span>
-                                Add a voice note
-                            </span>
+                            <span>Add a voice note</span>
                         </button>
+
+                        <!-- SPOTIFY -->
 
                         <button
                             type="button"
                             class="memory-button"
-                            id="surpriseButton"
+                            id="songButton"
+                            aria-expanded="false"
+                            aria-controls="spotifyPanel"
                         >
-                            <span class="memory-icon">✦</span>
-
-                            <span>
-                                Add a surprise
-                            </span>
+                            <span class="memory-icon">♫</span>
+                            <span>Add a Spotify song</span>
                         </button>
 
                     </div>
 
+                    <!-- FOTOĞRAF PANELİ -->
+
+                    <section
+                        class="media-input-panel"
+                        id="photoPanel"
+                        hidden
+                    >
+                        <div class="media-panel-heading">
+                            <div>
+                                <h3>Photos</h3>
+
+                                <p>
+                                    Choose up to 5 photos.
+                                    Maximum 8 MB each.
+                                </p>
+                            </div>
+
+                            <span id="photoCount">
+                                0 / 5
+                            </span>
+                        </div>
+
+                        <label
+                            for="photoInput"
+                            class="file-picker-label"
+                        >
+                            Choose photos
+                        </label>
+
+                        <input
+                            type="file"
+                            id="photoInput"
+                            accept="image/jpeg,image/png,image/webp"
+                            multiple
+                            hidden
+                        >
+
+                        <div
+                            class="selected-photo-grid"
+                            id="selectedPhotoGrid"
+                        ></div>
+
+                        <p
+                            class="media-error"
+                            id="photoError"
+                            aria-live="polite"
+                        ></p>
+                    </section>
+
+                    <!-- VİDEO PANELİ -->
+
+                    <section
+                        class="media-input-panel"
+                        id="videoPanel"
+                        hidden
+                    >
+                        <div class="media-panel-heading">
+                            <div>
+                                <h3>Video</h3>
+
+                                <p>
+                                    Choose one video up to
+                                    1 minute and 25 MB.
+                                </p>
+                            </div>
+                        </div>
+
+                        <label
+                            for="videoInput"
+                            class="file-picker-label"
+                        >
+                            Choose a video
+                        </label>
+
+                        <input
+                            type="file"
+                            id="videoInput"
+                            accept="video/mp4,video/webm"
+                            hidden
+                        >
+
+                        <div
+                            class="selected-media-preview"
+                            id="videoPreviewContainer"
+                            hidden
+                        >
+                            <video
+                                id="videoPreview"
+                                controls
+                                playsinline
+                            ></video>
+
+                            <button
+                                type="button"
+                                class="remove-media-button"
+                                id="removeVideoButton"
+                            >
+                                Remove video
+                            </button>
+                        </div>
+
+                        <p
+                            class="media-error"
+                            id="videoError"
+                            aria-live="polite"
+                        ></p>
+                    </section>
+
+                    <!-- SES PANELİ -->
+
+                    <section
+                        class="media-input-panel"
+                        id="voicePanel"
+                        hidden
+                    >
+                        <div class="media-panel-heading">
+                            <div>
+                                <h3>Voice Note</h3>
+
+                                <p>
+                                    Record one voice note up to
+                                    1 minute.
+                                </p>
+                            </div>
+
+                            <span id="recordingTimer">
+                                00:00
+                            </span>
+                        </div>
+
+                        <div class="recording-controls">
+
+                            <button
+                                type="button"
+                                class="record-button"
+                                id="startRecordingButton"
+                            >
+                                Start recording
+                            </button>
+
+                            <button
+                                type="button"
+                                class="record-button secondary"
+                                id="stopRecordingButton"
+                                disabled
+                            >
+                                Stop
+                            </button>
+
+                        </div>
+
+                        <div
+                            class="selected-media-preview"
+                            id="voicePreviewContainer"
+                            hidden
+                        >
+                            <audio
+                                id="voicePreview"
+                                controls
+                            ></audio>
+
+                            <button
+                                type="button"
+                                class="remove-media-button"
+                                id="removeVoiceButton"
+                            >
+                                Remove recording
+                            </button>
+                        </div>
+
+                        <p
+                            class="media-error"
+                            id="voiceError"
+                            aria-live="polite"
+                        ></p>
+                    </section>
+
+                    <!-- SPOTIFY PANELİ -->
+
+                    <section
+                        class="media-input-panel"
+                        id="spotifyPanel"
+                        hidden
+                    >
+                        <div class="media-panel-heading">
+                            <div>
+                                <h3>Spotify Song</h3>
+
+                                <p>
+                                    Paste a Spotify track link.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="spotify-input-row">
+
+                            <input
+                                type="url"
+                                id="spotifyInput"
+                                placeholder="https://open.spotify.com/track/..."
+                            >
+
+                            <button
+                                type="button"
+                                id="spotifyPreviewButton"
+                            >
+                                Add song
+                            </button>
+
+                        </div>
+
+                        <div
+                            class="spotify-creator-preview"
+                            id="spotifyCreatorPreview"
+                            hidden
+                        >
+                            <img
+                                id="spotifyCreatorCover"
+                                alt="Spotify cover"
+                            >
+
+                            <div>
+                                <strong id="spotifyCreatorTitle">
+                                    Spotify Song
+                                </strong>
+
+                                <span id="spotifyCreatorArtist"></span>
+                            </div>
+
+                            <button
+                                type="button"
+                                class="remove-media-button"
+                                id="removeSpotifyButton"
+                            >
+                                Remove
+                            </button>
+                        </div>
+
+                        <p
+                            class="media-error"
+                            id="spotifyError"
+                            aria-live="polite"
+                        ></p>
+                    </section>
+
                 </div>
+
+                <p
+                    class="upload-status"
+                    id="uploadStatus"
+                    aria-live="polite"
+                ></p>
 
                 <button
                     type="submit"
@@ -188,7 +450,10 @@
 
     </main>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="./script.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+    ></script>
+
+    <script src="./script.js"></script>
 </body>
 </html>

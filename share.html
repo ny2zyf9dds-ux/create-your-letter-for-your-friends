@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Share Your Letter | Dearly</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="share-page">
+
+    <header class="top-bar">
+        <a href="index.html" class="logo-link">
+            Dearly
+        </a>
+
+        <a href="create.html" class="back-link">
+            Create another letter
+        </a>
+    </header>
+
+    <main class="share-main">
+
+        <section class="share-card">
+
+            <div class="share-success-icon">
+                ✓
+            </div>
+
+            <p class="section-label">
+                Your letter is ready
+            </p>
+
+            <h1 class="share-title">
+                Send it to someone special.
+            </h1>
+
+            <p class="share-description">
+                Anyone with this private link can open your letter.
+            </p>
+
+            <div class="share-link-box">
+                <input
+                    type="text"
+                    id="shareLink"
+                    readonly
+                    aria-label="Letter sharing link"
+                >
+
+                <button
+                    type="button"
+                    id="copyLinkButton"
+                    class="copy-link-button"
+                >
+                    Copy
+                </button>
+            </div>
+
+            <p
+                class="copy-status"
+                id="copyStatus"
+                aria-live="polite"
+            ></p>
+
+            <div class="share-options">
+
+                <button
+                    type="button"
+                    id="whatsappButton"
+                    class="share-option-button"
+                >
+                    <span class="share-option-icon">W</span>
+                    Share on WhatsApp
+                </button>
+
+                <button
+                    type="button"
+                    id="telegramButton"
+                    class="share-option-button"
+                >
+                    <span class="share-option-icon">T</span>
+                    Share on Telegram
+                </button>
+
+                <button
+                    type="button"
+                    id="nativeShareButton"
+                    class="share-option-button"
+                >
+                    <span class="share-option-icon">↗</span>
+                    More sharing options
+                </button>
+
+            </div>
+
+            <a
+                href="#"
+                id="previewLetterLink"
+                class="preview-letter-link"
+            >
+                Preview the letter
+            </a>
+
+        </section>
+
+    </main>
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+    ></script>
+
+    <script src="script.js"></script>
+</body>
+</html>
